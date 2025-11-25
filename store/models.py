@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 # Create your models here.
 
 
@@ -13,15 +14,18 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=250)
+    title = models.CharField(max_length=250)
     brand = models.CharField(max_length=250 , default="un-branded")
     description = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    stock = models.IntegerField(default=0 , validators=[MinValueValidator(0)])
     slug = models.SlugField(max_length=250)
     price = models.DecimalField(max_digits=5 , decimal_places=2)
     image = models.ImageField(upload_to = "products/")
     class Meta:
             verbose_name = "categories"
     def __str__(self):
-        return self.name
+        return self.title
 
     
