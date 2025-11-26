@@ -72,7 +72,7 @@
                         <li><a class="dropdown-item horror-dropdown-item" href="{% url 'store' %}">All</a></li>
                         {% for category in all_categories %}
                             <li>
-                                <a class="dropdown-item horror-dropdown-item" href= "" >{{category.name | capfirst}}</a>
+                                <a class="dropdown-item horror-dropdown-item" href= "{% url "category_search" category.slug %}" >{{category.name | capfirst}}</a>
                             <li>
                         {% endfor %}
                     </ul>

@@ -26,3 +26,12 @@ class ProductView(View):
     def post(self,request , slug):
         pass
 
+class CategoryView(ListView):
+    template_name= "store/store.html"
+    model = Product
+    context_object_name = "products"
+    def get_queryset(self):
+        base_query = super().get_queryset()
+        slug = self.kwargs["slug"]
+        return base_query.filter(category__slug=slug)
+    
