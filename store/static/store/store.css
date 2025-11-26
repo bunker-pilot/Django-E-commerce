@@ -81,22 +81,6 @@ body {
     margin-bottom: 1rem;
 }
 
-/* VIEW BUTTON */
-.horror-view-btn {
-    display: block;
-    width: 100%;
-    padding: 0.6rem;
-    text-align: center;
-    border: 1px solid #550000;
-    border-radius: 6px;
-    color: white;
-    background: transparent;
-    transition: 0.3s;
-}
-
-.horror-view-btn:hover {
-    background: #220000;
-    border-color: #ff0000;
-    color: #ff6666;
-    box-shadow: 0 0 10px red;
+.horror-product-card-link{
+    text-decoration: none;
 }

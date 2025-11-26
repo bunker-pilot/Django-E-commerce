@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'store/product_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h1 class="horror-title">{{ product.title }}</h1>
+
+<div class="detail-container">
+
+    <!-- LEFT: PRODUCT IMAGE -->
+    <div class="detail-image-box">
+        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="detail-image">
+    </div>
+
+    <!-- RIGHT: PRODUCT INFO -->
+    <div class="detail-info">
+
+        <h2 class="detail-name">{{ product.title }}</h2>
+
+        <p class="detail-price">${{ product.price }}</p>
+
+        <p class="detail-description">
+            {{ product.description }}
+        </p>
+        <p class="detail-category">
+            Brand: <span>{{ product.brand }}</span>
+        </p>
+        <p class="detail-category">
+            Category: <span>{{ product.category.name }}</span>
+        </p>
+
+        <p class="detail-stock">
+            {% if product.stock > 0 %}
+                <span class="stock-in">In Stock</span>
+            {% else %}
+                <span class="stock-out">Out of Stock</span>
+            {% endif %}
+        </p>
+
+        <a href="#" class="detail-btn">Add to Cart</a>
+
+    </div>
+
+</div>
+
+{% endblock %}
