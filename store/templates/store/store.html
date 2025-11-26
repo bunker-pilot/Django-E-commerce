@@ -1,1 +1,41 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css_files %}
+<link rel= "stylesheet" href ="{% static "store/store.css" %}">
+{% endblock css_files %}
+
+{% block content %}
+<!-- TITLE -->
+<h1 class="horror-title">The Haunted Store</h1>
+
+<!-- PRODUCT LIST -->
+<div class="horror-product-grid">
+
+    {% for product in products %}
+
+    <div class="horror-product-card">
+
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="horror-product-img">
+
+        <div class="horror-product-name">{{ product.name }}</div>
+
+        <div class="horror-price">${{ product.price }}</div>
+
+        <a href="{% url 'product_detail' product.id %}" class="horror-view-btn">
+            View Details
+        </a>
+
+    </div>
+
+    {% empty %}
+    <p style="color:#ccc; text-align:center; font-size:1.2rem;">
+        No products found... (Did the ghosts take them?)
+    </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

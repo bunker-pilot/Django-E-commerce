@@ -1,0 +1,102 @@
+/* HORROR BACKGROUND */
+body {
+    background: #0a0a0a;
+    background-image: radial-gradient(circle at top, #22000055, #000000 70%);
+    color: #e6e6e6;
+    font-family: Arial, sans-serif;
+}
+
+/* PAGE TITLE */
+.horror-title {
+    text-align: center;
+    font-family: "Creepster", cursive;
+    font-size: 3rem;
+    color: #ff0000;
+    text-shadow: 0 0 15px red;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* PRODUCT GRID */
+.horror-product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-gap: 2rem;
+    padding: 0 2rem 4rem 2rem;
+}
+
+/* PRODUCT CARD */
+.horror-product-card {
+    background: #141414;
+    border: 2px solid #2b0000;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.horror-product-card:hover {
+    border-color: #ff0000;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+    transform: translateY(-5px);
+}
+
+/* DRIPPING BLOOD EFFECT */
+.horror-product-card::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: url("https://i.imgur.com/6YV7jH3.png") repeat-x;
+    opacity: 0.12;
+    pointer-events: none;
+}
+
+/* PRODUCT IMAGE */
+.horror-product-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #300000;
+    margin-bottom: 1rem;
+}
+
+/* PRODUCT NAME */
+.horror-product-name {
+    font-size: 1.3rem;
+    color: #ff4444;
+    text-shadow: 0 0 8px red;
+    margin-bottom: 0.5rem;
+}
+
+/* PRICE */
+.horror-price {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin-bottom: 1rem;
+}
+
+/* VIEW BUTTON */
+.horror-view-btn {
+    display: block;
+    width: 100%;
+    padding: 0.6rem;
+    text-align: center;
+    border: 1px solid #550000;
+    border-radius: 6px;
+    color: white;
+    background: transparent;
+    transition: 0.3s;
+}
+
+.horror-view-btn:hover {
+    background: #220000;
+    border-color: #ff0000;
+    color: #ff6666;
+    box-shadow: 0 0 10px red;
+}
