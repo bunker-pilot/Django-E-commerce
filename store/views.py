@@ -15,6 +15,10 @@ class HomeView(ListView):
     model = Product
     context_object_name = "products"
     ordering = ["-modified_at"]
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
 
 class ProductView(View):
     def get(self, request ,slug):
@@ -34,4 +38,10 @@ class CategoryView(ListView):
         base_query = super().get_queryset()
         slug = self.kwargs["slug"]
         return base_query.filter(category__slug=slug)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs["slug"]
+        context["category_name"] = Category.objects.get(slug=slug)
+        return context
+    
     

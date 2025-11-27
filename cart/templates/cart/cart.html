@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h1 class="cart-title">Your Cart</h1>
+
+{% if cart_items %}
+
+<div class="cart-container">
+
+    {% for item in cart_items %}
+    <div class="cart-item">
+
+        <div class="cart-item-img-box">
+            <img src="{{ item.product.image.url }}" class="cart-item-img">
+        </div>
+
+        <div class="cart-item-info">
+            <h2 class="cart-item-name">{{ item.product.title }}</h2>
+            <p class="cart-item-price">Price: ${{ item.product.price }}</p>
+            <p class="cart-item-quantity">Quantity: {{ item.quantity }}</p>
+            <p class="cart-item-total">Item Total: ${{ item.total_price }}</p>
+
+            <div class="cart-buttons">
+                <a href="{% url 'remove_from_cart' item.product.id %}" class="cart-btn remove-btn">Remove</a>
+                <a href="{% url 'add_to_cart' item.product.id %}" class="cart-btn add-btn">+ Add One More</a>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+<div class="cart-summary">
+    <h2>Total: ${{ cart_total }}</h2>
+    <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+</div>
+
+{% else %}
+<p class="empty-cart">Your cart is empty... The shadows whisper softly.</p>
+{% endif %}
+
+{% endblock %}
