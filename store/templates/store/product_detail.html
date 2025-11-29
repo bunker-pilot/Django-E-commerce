@@ -40,11 +40,55 @@
                 <span class="stock-out">Out of Stock</span>
             {% endif %}
         </p>
-
-        <a href="#" class="detail-btn">Add to Cart</a>
+        <div class="quantity-box">
+            <label for="quantity" class="qty-label">Quantity:</label>
+        
+            <select id="quantity" class="qty-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>        
+        <button id ="add-button" value = "{{product.id}}" class="detail-btn" {% if product.stock == 0 %}disabled{% endif %}>
+            {% if product.stock == 0 %}
+                Out of Stock
+            {% else %}
+            Add to Cart
+            {% endif %}
+        </button>
 
     </div>
 
 </div>
+<script>
+    $(document).on('click','#add-button' , function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart-add" %}',
+            data: {
+                product_id : $("#add-button").val(),
+                product_quantity: $("#quantity").val(),
+                csrfmiddlewaretoke: '{% csrf_token %}'
+                action: "POST",
+            },
+            success: function(json){
+                console.log(json)
+            },
+            error: function(xhr, errmsg , err){
+
+            },
+        });
+    })
+
+</script>
 
 {% endblock %}
