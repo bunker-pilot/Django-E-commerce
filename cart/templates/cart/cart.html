@@ -27,7 +27,7 @@
             <p class="cart-item-total">Item Total: ${{ item.total_price }}</p>
 
             <div class="cart-buttons">
-                <a href="" class="cart-btn remove-btn">Remove</a>
+                <a href="{% url "cart-app:cart-delete" %}" class="cart-btn remove-btn delete-btn" data-index="{{item.product.id}}">Remove</a>
                 <a href="" class="cart-btn add-btn">+ Add One More</a>
             </div>
         </div>
@@ -38,12 +38,37 @@
 </div>
 
 <div class="cart-summary">
-    <h2>Total: ${{ cart.total_price }}</h2>
+    <h2 id = "total_price">Total: ${{ cart.total_price }}</h2>
     <a href="" class="checkout-btn">Proceed to Checkout</a>
 </div>
 
 {% else %}
 <p class="empty-cart">Your cart is empty... The shadows whisper softly.</p>
 {% endif %}
+
+<script>
+
+    $(document).on('click','.delete-btn' , function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart-app:cart-delete" %}',
+            data: {
+                product_id : $(this).data("index"),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: "POST",
+            },
+            success: function(json){
+                location.reload()
+                document.getElementById("cart-qty").textContent = json.qty
+                document.getElementById("total_price").textContent = json.total_price
+            },
+            error: function(xhr, errmsg , err){
+
+            },
+        });
+    })
+</script>
 
 {% endblock %}

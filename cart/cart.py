@@ -29,8 +29,17 @@ class Cart:
                 "price" : cart_item["price"],
                 "total_price" : cart_item["qty"] * cart_item["price"],
              }
+
+    def delete(self, product_id):
+        product_id= str(product_id)
+
+        if product_id in self.cart:
+            del self.cart[product_id]
+        self.save()
+
     def total_price(self):
         return sum(item["price"] * item["qty"] for item in self.cart.values())
+
     def save(self):
         self.session["cart"] = self.cart
         self.session.modified = True
