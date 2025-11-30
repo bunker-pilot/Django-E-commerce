@@ -9,11 +9,11 @@
 
 <h1 class="cart-title">Your Cart</h1>
 
-{% if cart_items %}
+{% if cart %}
 
 <div class="cart-container">
 
-    {% for item in cart_items %}
+    {% for item in cart%}
     <div class="cart-item">
 
         <div class="cart-item-img-box">
@@ -21,14 +21,14 @@
         </div>
 
         <div class="cart-item-info">
-            <h2 class="cart-item-name">{{ item.product.title }}</h2>
+            <a href ="{% url "store-app:product_detail" item.product.slug %}" style= "text-decoration : none;"> <h2 class="cart-item-name">{{ item.product.title }}</h2></a>
             <p class="cart-item-price">Price: ${{ item.product.price }}</p>
-            <p class="cart-item-quantity">Quantity: {{ item.quantity }}</p>
+            <p class="cart-item-quantity">Quantity: {{ item.qty }}</p>
             <p class="cart-item-total">Item Total: ${{ item.total_price }}</p>
 
             <div class="cart-buttons">
-                <a href="{% url 'remove_from_cart' item.product.id %}" class="cart-btn remove-btn">Remove</a>
-                <a href="{% url 'add_to_cart' item.product.id %}" class="cart-btn add-btn">+ Add One More</a>
+                <a href="" class="cart-btn remove-btn">Remove</a>
+                <a href="" class="cart-btn add-btn">+ Add One More</a>
             </div>
         </div>
 
@@ -38,8 +38,8 @@
 </div>
 
 <div class="cart-summary">
-    <h2>Total: ${{ cart_total }}</h2>
-    <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+    <h2>Total: ${{ cart.total_price }}</h2>
+    <a href="" class="checkout-btn">Proceed to Checkout</a>
 </div>
 
 {% else %}

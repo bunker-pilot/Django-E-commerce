@@ -73,15 +73,16 @@
 
         $.ajax({
             type: 'POST',
-            url: '{% url "cart-add" %}',
+            url: '{% url "cart-app:cart-add" %}',
             data: {
                 product_id : $("#add-button").val(),
                 product_quantity: $("#quantity").val(),
-                csrfmiddlewaretoke: '{% csrf_token %}'
+                csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: "POST",
             },
             success: function(json){
                 console.log(json)
+                document.getElementById("cart-qty").textContent = json.qty
             },
             error: function(xhr, errmsg , err){
 

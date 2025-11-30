@@ -99,6 +99,7 @@ body {
     transition: 0.3s;
 }
 
+
 .remove-btn:hover {
     border-color: #ff0000;
     color: #ff5555;

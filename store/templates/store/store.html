@@ -18,7 +18,7 @@
 <div class="horror-product-grid">
 
     {% for product in products %}
-        <a href="{% url "product_detail" product.slug %}" class="horror-product-card-link">
+        <a href="{% url "store-app:product_detail" product.slug %}" class="horror-product-card-link">
             <div class="horror-product-card">
 
                 <img src="{{ product.image.url }}" alt="{{ product.title }}" class="horror-product-img">
