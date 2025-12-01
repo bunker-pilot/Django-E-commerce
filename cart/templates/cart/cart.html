@@ -60,7 +60,7 @@
                 action: "POST",
             },
             success: function(json){
-                location.reload()
+                location.reload(true )
                 document.getElementById("cart-qty").textContent = json.qty
                 document.getElementById("total_price").textContent = json.total_price
             },
@@ -81,7 +81,7 @@
                 action: "POST",
             },
             success: function(json){
-                location.reload()
+                location.reload(true)
                 document.getElementById("cart-qty").textContent = json.qty
                 document.getElementById("total_price").textContent = json.total_price
             },
