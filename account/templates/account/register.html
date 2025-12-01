@@ -1,1 +1,40 @@
-hola
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'account/register.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="register-container">
+
+    <h1 class="register-title">Create an Account</h1>
+    <p class="register-subtitle">Join us... If you dare.</p>
+
+    <form method="post" class="register-form">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="register-field {% if field.errors %}has-error{% endif %}">
+                <label>{{ field.label }}</label>
+                {{ field }}
+
+                {% if field.errors %}
+                    <p class="field-error">{{ field.errors|striptags }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="register-btn">Sign Up</button>
+
+        <p class="register-login-text">
+            Already haunting this place?
+            <a href="">Login</a>
+        </p>
+
+    </form>
+
+</div>
+
+{% endblock %}
