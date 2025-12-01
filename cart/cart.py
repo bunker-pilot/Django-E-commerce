@@ -1,4 +1,5 @@
 from store.models import Product
+from copy import deepcopy
 class Cart:
     def __init__(self, request):
         self.session = request.session
@@ -19,7 +20,7 @@ class Cart:
     def __iter__(self):
         product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
-        cart = self.cart.copy()
+        cart = deepcopy(self.cart)
 
         for product in products:
             cart_item  = cart[str(product.id)]
