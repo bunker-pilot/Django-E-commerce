@@ -28,7 +28,7 @@
 
             <div class="cart-buttons">
                 <a href="{% url "cart-app:cart-delete" %}" class="cart-btn remove-btn delete-btn" data-index="{{item.product.id}}">Remove</a>
-                <a href="" class="cart-btn add-btn">+ Add One More</a>
+                <a href="{% url "cart-app:cart-update" %}" class="cart-btn add-btn plus-one" data-index = "{{item.product.id}}">+ Add One More</a>
             </div>
         </div>
 
@@ -54,6 +54,27 @@
         $.ajax({
             type: 'POST',
             url: '{% url "cart-app:cart-delete" %}',
+            data: {
+                product_id : $(this).data("index"),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: "POST",
+            },
+            success: function(json){
+                location.reload()
+                document.getElementById("cart-qty").textContent = json.qty
+                document.getElementById("total_price").textContent = json.total_price
+            },
+            error: function(xhr, errmsg , err){
+
+            },
+        });
+    })
+
+    $(document).on('click','.plus-one' , function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart-app:cart-update" %}',
             data: {
                 product_id : $(this).data("index"),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
