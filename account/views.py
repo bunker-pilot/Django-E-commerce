@@ -1,13 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.sites.shortcuts import get_current_site
 from .tokens import account_activation_token
-from .forms import CreateUserForm
+from .forms import CreateUserForm, LoginForm
 from django.views import View 
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes , force_str
 from django.utils.http import urlsafe_base64_decode , urlsafe_base64_encode
 from django.urls import reverse_lazy
+from django.contrib.auth.models import auth
+from django.contrib.auth import authenticate,login,logout 
 # Create your views here.
 
 class RegisterView(View):
@@ -60,3 +62,21 @@ def success(request):
 
 def fail(request):
     return render(request,"account/registeration/email-verification-failed.html")
+
+class LoginView(View):
+    def get(self, request):
+        login_form = LoginForm()
+        return render(request , "account/login.html" , {"form":login_form})
+    
+    def post(self , request):
+        login_form = LoginForm(request , data = request.POST )
+        if login_form.is_valid():
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            
+            user = authenticate(request , username = username , password =password)
+            if user is not None:
+                auth.login(request , user)
+
+                return redirect("")
+        return render(request , "account/login.html" , {"form":login_form})
