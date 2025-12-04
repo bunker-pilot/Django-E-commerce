@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ["DEBUG"]
 
 ALLOWED_HOSTS = []
 
@@ -134,4 +134,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_ROOT = "static/media"
 MEDIA_URL= "/media/"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ["EMAIL_HOST"]
+EMAIL_PORT = os.environ["EMAIL_PORT"]
+EMAIL_USE_TLS = os.environ["EMAIL_USE_TLS"] == "True"
+EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]

@@ -21,9 +21,9 @@ class RegisterView(View):
             user=form.save(commit=False)
             user.is_active = False
             user.save()
-            # email verification setup
+            # email setup
             current = get_current_site(request)
-            subject = "Email verification"
+            subject = "Jonkey:Verify your email"
             message = render_to_string("account/registeration/email_verification.html" , {
                 "user" : user,
                 "domain": current.domain,
@@ -32,7 +32,7 @@ class RegisterView(View):
 
             })
 
-            user.email_user(message= message , subject=subject)
+            user.email_user(subject , message)
 
             return redirect("account-app:email-verification-sent")
         return render(request , "account/registeration/register.html" , {"form":form})
@@ -40,17 +40,18 @@ class RegisterView(View):
 class EmailVerificationView(View):
     def get(self,request , uidb64, token):
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk = uid)
-
+        try:
+            user = get_object_or_404(User , pk = uid)
+        except User.DoesNotExist:
+            user = None
+        # success
         if user and account_activation_token.check_token(user, token):
             user.is_active = True
-            
+            user.save()
             return redirect("account-app:email-verification-success")
+        #fail
         else:
             return redirect("account-app:email-verification-fail")
-
-    def post(self, uibd64,token):
-        pass 
 
 def email_sent(request):
     return render(request,"account/registeration/email-verification-sent.html")

@@ -1,5 +1,4 @@
-{% autoescape off %}
+
 
 http://{{domain}}/{% url "account-app:email-verification" uidb64=uid token=token %}
 
-{% endautoescape %}
