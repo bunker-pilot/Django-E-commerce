@@ -1,1 +1,89 @@
-LUL
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="email-container">
+    <h1 class="email-title">Email Verified</h1>
+    <p class="email-text">
+        Your account has been successfully activated.<br>
+        You may now enter the store…
+        <br><br>
+        <a href="" class="email-link-button">
+            Proceed to Login
+        </a>
+    </p>
+    <div class="email-icon success"></div>
+</div>
+
+<style>
+/* Reuse container styling */
+body{
+    background-color: #1e1c1c;
+}
+.email-container {
+    max-width: 600px;
+    margin: 6rem auto;
+    background: #141414;
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 2px solid #2b0000;
+    box-shadow: 0 0 20px rgba(255,0,0,0.15);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.email-container::before {
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    background: url("https://i.imgur.com/6YV7jH3.png") repeat-x;
+    opacity: 0.12;
+}
+
+.email-title {
+    font-family: "Creepster", cursive;
+    font-size: 3rem;
+    color: #ff0000;
+    text-shadow: 0 0 15px red;
+    margin-bottom: 1.5rem;
+}
+
+.email-text {
+    color: #d0d0d0;
+    font-size: 1.2rem;
+    line-height: 1.7rem;
+}
+
+/* LOGIN BUTTON */
+.email-link-button {
+    display: inline-block;
+    margin-top: 1.7rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    border: 1px solid #550000;
+    color: #e6e6e6;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.email-link-button:hover {
+    color: #ff0000;
+    border-color: #ff0000;
+    box-shadow: 0 0 15px rgba(255,0,0,0.4);
+}
+
+/* SUCCESS ICON */
+.email-icon.success::before {
+    content: "✔";
+    font-size: 4rem;
+    color: #00ff99;
+    text-shadow: 0 0 15px #00ff99;
+    display: inline-block;
+    margin-top: 2.5rem;
+}
+</style>
+
+{% endblock %}

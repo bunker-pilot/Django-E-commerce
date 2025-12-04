@@ -59,4 +59,4 @@ def success(request):
     return render(request,"account/registeration/email-verification-success.html")
 
 def fail(request):
-    return render(request,"account/registeration/email-verification-fail.html")
+    return render(request,"account/registeration/email-verification-failed.html")

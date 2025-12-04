@@ -1,1 +1,74 @@
-Email verification sent
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="email-container">
+    <h1 class="email-title">Verify Your Email</h1>
+    <p class="email-text">
+        A verification link has been sent to your email address.  
+        Follow the link to activate your account...  
+        <br><br>
+        <span class="email-highlight">Before the shadows claim it.</span>
+    </p>
+    <div class="email-icon sent"></div>
+</div>
+
+<style>
+body{
+        background-color: #1e1c1c;
+}
+.email-container {
+    max-width: 600px;
+    margin: 6rem auto;
+    background: #141414;
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 2px solid #2b0000;
+    box-shadow: 0 0 20px rgba(255,0,0,0.15);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.email-container::before {
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    background: url("https://i.imgur.com/6YV7jH3.png") repeat-x;
+    opacity: 0.12;
+}
+
+.email-title {
+    font-family: "Creepster", cursive;
+    font-size: 3rem;
+    color: #ff0000;
+    text-shadow: 0 0 15px red;
+    margin-bottom: 1.5rem;
+}
+
+.email-text {
+    color: #d0d0d0;
+    font-size: 1.1rem;
+    line-height: 1.7rem;
+}
+
+.email-highlight {
+    color: #ff4444;
+    text-shadow: 0 0 8px red;
+}
+
+/* CHECKMARK ICON */
+.email-icon.sent::before {
+    content: "✉";
+    font-size: 4rem;
+    color: #ff2a2a;
+    text-shadow: 0 0 15px rgba(255,0,0,0.5);
+    display: inline-block;
+    margin-top: 2.2rem;
+}
+</style>
+
+{% endblock %}
