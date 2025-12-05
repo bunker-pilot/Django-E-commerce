@@ -10,6 +10,8 @@ from django.utils.http import urlsafe_base64_decode , urlsafe_base64_encode
 from django.urls import reverse_lazy
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate,login,logout 
+# from django.contrib.auth.decorators import login_required \\ Tutorial implementation for log in required templates
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 class RegisterView(View):
@@ -77,6 +79,24 @@ class LoginView(View):
             user = authenticate(request , username = username , password =password)
             if user is not None:
                 auth.login(request , user)
-
-                return redirect("")
+                return redirect("account-app:dashboard")
+                
         return render(request , "account/login.html" , {"form":login_form})
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect("store-app:store")
+
+class DashBoardView( LoginRequiredMixin , View):
+    login_url = "account-app:user-login"
+    def get(self, request):
+        return render(request , "account/dashboard.html")
+
+"""
+Tutorial implementation
+@login_required(login_url="account-app:user-login")
+def DashBoard(request):
+     return render(request , "account/dashboard.html")
+"""
+

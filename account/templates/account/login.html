@@ -9,8 +9,10 @@
 
 <div class="register-container">
 
-    <h1 class="register-title">Log in</h1>
-    <p class="register-subtitle">MHHh</p>
+    <h1 class="register-title">Welcome Back</h1>
+    <p class="register-subtitle">
+        Enter the gates… if you remember the password.
+    </p>
 
     <form method="post" class="register-form">
         {% csrf_token %}
@@ -26,11 +28,11 @@
             </div>
         {% endfor %}
 
-        <button type="submit" class="register-btn">Log in</button>
+        <button type="submit" class="register-btn">Log In</button>
 
         <p class="register-login-text">
-            Don't have an account ?
-            <a href="">Login</a>
+            New to this realm?
+            <a href="{% url 'account-app:register' %}">Create an account</a>
         </p>
 
     </form>
