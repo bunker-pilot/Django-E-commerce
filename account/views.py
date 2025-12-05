@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.sites.shortcuts import get_current_site
 from .tokens import account_activation_token
-from .forms import CreateUserForm, LoginForm
+from .forms import CreateUserForm, LoginForm, UpdateUserForm
 from django.views import View 
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
@@ -10,7 +10,7 @@ from django.utils.http import urlsafe_base64_decode , urlsafe_base64_encode
 from django.urls import reverse_lazy
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate,login,logout 
-# from django.contrib.auth.decorators import login_required \\ Tutorial implementation for log in required templates
+from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
@@ -99,4 +99,27 @@ Tutorial implementation
 def DashBoard(request):
      return render(request , "account/dashboard.html")
 """
+
+class ProfileManagementView(LoginRequiredMixin,View):
+    login_url = "account-app:user-login"
+    def get(self , request):
+        form = UpdateUserForm(instance=request.user)
+        return render(request , "account/profile_manage.html" ,{"form": form}) 
+    
+    def post(self, request):
+        form = UpdateUserForm(request.POST, instance= request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("account-app:dashboard")
+
+@login_required(login_url="account-app:user-login")
+def delete_account(request):
+    user = User.objects.get(id = request.user.id)
+
+    if request.method == "POST":
+        user.delete()
+
+        return redirect("store-app:store")
+    return render(request , "account/delete_account.html")
+
 

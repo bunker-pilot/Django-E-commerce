@@ -21,3 +21,17 @@ class CreateUserForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=TextInput())
     password = forms.CharField(widget=PasswordInput())
+
+
+class UpdateUserForm(forms.ModelForm):
+    password = None
+    class Meta:
+        model = User
+        fields = ["username"  , "email"]
+        exclude = ["password1" , "password2"]
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email already in use")
+        return email
