@@ -111,6 +111,7 @@ class ProfileManagementView(LoginRequiredMixin,View):
         if form.is_valid():
             form.save()
             return redirect("account-app:dashboard")
+        return render(request , "account/profile_manage.html" ,{"form": form}) 
 
 @login_required(login_url="account-app:user-login")
 def delete_account(request):

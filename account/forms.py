@@ -32,6 +32,6 @@ class UpdateUserForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get("email")
 
-        if User.objects.filter(email=email).exists():
+        if User.objects.filter(email=email).exclude(pk = self.instance.id).exists():
             raise forms.ValidationError("Email already in use")
         return email
