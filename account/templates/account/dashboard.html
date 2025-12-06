@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+welcome, {{user.username}}
 <a href="{% url "account-app:user-logout" %}">Log out</a>
 {% endblock content %}
