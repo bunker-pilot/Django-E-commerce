@@ -1,9 +1,37 @@
-delete bitch
+{% extends "base.html" %}
+{% load static %}
+{% block css_files %}
 
+    <link rel = "stylesheet" href= "{% static "account/delete_account.css" %}">
+
+{% endblock css_files %}
 {% block content %}
 
-<form method ="POST">
-{% csrf_token %}
-<button type="submit" class="register-btn">Delete</button>
-<form>
-{% endblock content %}
+<div class="delete-container">
+
+    <h1 class="delete-title">Erase Your Existence</h1>
+    <p class="delete-subtitle">
+        {{ request.user.username }}, once you cross this line… there is no return.
+    </p>
+
+    <div class="delete-box">
+
+        <p class="warning-text">
+            Are you absolutely certain you want to delete your account?  
+            Your orders, profile, cart, and all traces of your existence will be removed forever.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button class="delete-btn" type="submit">DELETE ACCOUNT</button>
+        </form>
+
+        <a href="{% url 'account-app:dashboard' %}" class="cancel-btn">
+            Cancel — Take me back
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

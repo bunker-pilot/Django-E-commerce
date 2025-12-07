@@ -1,0 +1,97 @@
+body {
+    background: #0a0a0a;
+    background-image: radial-gradient(circle at top, #22000055, #000000 70%);
+    color: #e6e6e6;
+}
+
+/* WRAPPER */
+.delete-container {
+    max-width: 700px;
+    margin: 5rem auto;
+    padding: 0 1.5rem;
+    text-align: center;
+}
+
+/* TITLE */
+.delete-title {
+    font-family: "Creepster", cursive;
+    font-size: 3rem;
+    color: #ff0000;
+    text-shadow: 0 0 15px red;
+    margin-bottom: 0.5rem;
+}
+
+.delete-subtitle {
+    color: #bfbfbf;
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+}
+
+/* DELETE BOX */
+.delete-box {
+    background: #141414;
+    border: 2px solid #2b0000;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 0 18px rgba(255, 0, 0, 0.18);
+    position: relative;
+    overflow: hidden;
+}
+
+/* BLOOD EFFECT */
+.delete-box::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: url("https://i.imgur.com/6YV7jH3.png") repeat-x;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+/* TEXT */
+.warning-text {
+    color: #e6e6e6;
+    font-size: 1.1rem;
+    line-height: 1.6rem;
+    margin-bottom: 2rem;
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+    background: #330000;
+    color: #ff4444;
+    border: 2px solid #770000;
+    padding: 0.8rem 1.6rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+    width: 100%;
+    max-width: 250px;
+}
+
+.delete-btn:hover {
+    background: #550000;
+    color: #ff0000;
+    border-color: #ff0000;
+    box-shadow: 0 0 15px rgba(255,0,0,0.5);
+    transform: translateY(-3px);
+}
+
+/* CANCEL */
+.cancel-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    text-decoration: none;
+    color: #cccccc;
+    transition: 0.2s;
+}
+
+.cancel-btn:hover {
+    color: #ff5555;
+    text-shadow: 0 0 8px red;
+}
