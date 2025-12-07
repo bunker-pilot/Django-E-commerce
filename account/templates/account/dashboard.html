@@ -1,6 +1,44 @@
 {% extends "base.html" %}
+{% load static %}
 
+{% block css_files %}
+    <link rel = "stylesheet" href= "{% static "account/dashboard.css" %}">
+
+{% endblock css_files %}
 {% block content %}
-welcome, {{user.username}}
-<a href="{% url "account-app:user-logout" %}">Log out</a>
-{% endblock content %}
+
+<div class="dashboard-container">
+
+    <h1 class="dashboard-title">Your Domain</h1>
+    <p class="dashboard-subtitle">Welcome back, {{ request.user.username }}...</p>
+
+    <div class="dashboard-grid">
+
+        <!-- USER INFO CARD -->
+        <div class="dashboard-card">
+            <h2 class="card-title">Account Information</h2>
+            <p class="card-text"><strong>Username:</strong> {{ request.user.username }}</p>
+            <p class="card-text"><strong>Email:</strong> {{ request.user.email }}</p>
+
+            <a href="{% url 'account-app:profile-management' %}" class="dashboard-btn">
+                Update Information
+            </a>
+        </div>
+
+        <!-- DELETE ACCOUNT -->
+        <div class="dashboard-card danger-card">
+            <h2 class="card-title">Danger Zone</h2>
+            <p class="card-text">Once you descend, there is no return.</p>
+
+            <a href="{% url 'account-app:delete-user' %}" class="dashboard-btn danger-btn">
+                Delete Account
+            </a>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}
