@@ -21,15 +21,11 @@
             <div class="register-field {% if field.errors %}has-error{% endif %}">
                 <label>{{ field.label }}</label>
                 {{ field }}
-
-                {% if field.errors %}
-                    <p class="field-error">{{ field.errors|striptags }}</p>
-                {% endif %}
             </div>
         {% endfor %}
-
         <button type="submit" class="register-btn">Log In</button>
-
+        &nbsp
+        {{form.non_field_errors}}
         <p class="register-login-text">
             New to this realm?
             <a href="{% url 'register' %}">Create an account</a>

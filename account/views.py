@@ -12,6 +12,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate,login,logout 
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 # Create your views here.
 
 class RegisterView(View):
@@ -86,6 +87,8 @@ class LoginView(View):
 
 def logout(request):
     auth.logout(request)
+
+    messages.success(request , "Logout successful")
     return redirect("store-app:store")
 
 class DashBoardView( LoginRequiredMixin , View):
@@ -110,6 +113,7 @@ class ProfileManagementView(LoginRequiredMixin,View):
         form = UpdateUserForm(request.POST, instance= request.user)
         if form.is_valid():
             form.save()
+            messages.info(request , "Profile Updated")
             return redirect("dashboard")
         return render(request , "account/profile_manage.html" ,{"form": form}) 
 
@@ -119,7 +123,7 @@ def delete_account(request):
 
     if request.method == "POST":
         user.delete()
-
+        messages.error(request , "Account deleted successfuly")
         return redirect("store-app:store")
     return render(request , "account/delete_account.html")
 

@@ -88,4 +88,145 @@
         margin-right: 0;
     }
 }
+/* --- HORROR MESSAGE SYSTEM FIX ---- */
+
+.message-wrapper {
+    position: fixed !important;
+    top: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 999999 !important;
+
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    pointer-events: none !important;
+}
+
+.horror-message {
+    pointer-events: auto !important;
+    min-width: 250px;
+    max-width: 420px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-align: center;
+
+    background: #111;
+    color: #eee;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255,0,0,0.25);
+    margin: 0 auto;
+
+    animation: fadeOut 5s forwards;
+}
+
+/* Color themes */
+.msg-success {
+    background: #112611;
+    border: 2px solid #1c5e1c;
+    text-shadow: 0 0 6px #33ff33;
+}
+
+.msg-error {
+    background: #2a0000;
+    border: 2px solid #770000;
+    text-shadow: 0 0 6px red;
+}
+
+.msg-info {
+    background: #0d1a26;
+    border: 2px solid #195d7a;
+    text-shadow: 0 0 6px #66d0ff;
+}
+
+/* Fade animation */
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    60% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-10px); }
+}
+/* ===========================
+   HORROR MESSAGE SYSTEM
+   =========================== */
+
+   .message-wrapper {
+    position: fixed !important;
+    top: 30px !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 999999;
+    pointer-events: none;
+}
+
+/* Base message styling */
+.horror-message {
+    pointer-events: auto;
+    min-width: 280px;
+    max-width: 450px;
+
+    padding: 15px 22px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+
+    font-family: "Creepster", cursive;
+    letter-spacing: 1px;
+
+    display: flex;
+    justify-content: center;
+
+    margin: 0 auto;
+
+    animation: horrorFade 4.5s forwards;
+}
+
+/* SUCCESS — eerie green glow */
+.msg-success {
+    background: rgba(0, 30, 0, 0.85);
+    border: 2px solid #0f700f;
+    color: #7cff7c;
+    text-shadow: 0 0 12px #0aff0a;
+    box-shadow: 0 0 20px rgba(0,255,0,0.3);
+}
+
+/* ERROR — dripping blood effect */
+.msg-error {
+    background: rgba(40, 0, 0, 0.9);
+    border: 2px solid #9b0000;
+    color: #ff4d4d;
+    text-shadow: 0 0 15px #ff0000;
+    box-shadow: 0 0 25px rgba(255,0,0,0.45);
+    position: relative;
+}
+
+.msg-error::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 60px;
+    height: 20px;
+    transform: translateX(-50%);
+    background: url("https://i.imgur.com/6YV7jH3.png") repeat-x;
+    opacity: 0.7;
+}
+
+/* INFO — ghostly blue mist */
+.msg-info {
+    background: rgba(0, 15, 30, 0.85);
+    border: 2px solid #006a99;
+    color: #7cd6ff;
+    text-shadow: 0 0 10px #6cd6ff;
+    box-shadow: 0 0 20px rgba(0,150,255,0.3);
+}
+
+/* Fade + rise animation */
+@keyframes horrorFade {
+    0% { opacity: 0; transform: translateY(-15px) scale(0.95); }
+    10% { opacity: 1; transform: translateY(0) scale(1); }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-25px) scale(0.90); }
+}
 

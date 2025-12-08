@@ -122,12 +122,22 @@
     </nav>
     
     <body>
-
-
+        <div class="message-wrapper" id ="horror-message-container">
+            {% for message in messages %}
+                <div class="horror-message
+                    {% if message.tags == 'success' %} msg-success
+                    {% elif message.tags == 'error' %} msg-error
+                    {% elif message.tags == 'info' %} msg-info
+                    {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        
         {% block content %} 
         {% endblock content%}
 
 
     </body>
-
+    <script src = "{% static "javascript/app.js" %}"></script>
 </html>
