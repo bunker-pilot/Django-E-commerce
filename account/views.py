@@ -38,7 +38,7 @@ class RegisterView(View):
 
             user.email_user(subject , message)
 
-            return redirect("account-app:email-verification-sent")
+            return redirect("email-verification-sent")
         return render(request , "account/registeration/register.html" , {"form":form})
 
 class EmailVerificationView(View):
@@ -52,10 +52,10 @@ class EmailVerificationView(View):
         if user and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
-            return redirect("account-app:email-verification-success")
+            return redirect("email-verification-success")
         #fail
         else:
-            return redirect("account-app:email-verification-fail")
+            return redirect("email-verification-fail")
 
 def email_sent(request):
     return render(request,"account/registeration/email-verification-sent.html")
@@ -79,7 +79,7 @@ class LoginView(View):
             user = authenticate(request , username = username , password =password)
             if user is not None:
                 auth.login(request , user)
-                return redirect("account-app:dashboard")
+                return redirect("dashboard")
                 
         return render(request , "account/login.html" , {"form":login_form})
 
@@ -110,10 +110,10 @@ class ProfileManagementView(LoginRequiredMixin,View):
         form = UpdateUserForm(request.POST, instance= request.user)
         if form.is_valid():
             form.save()
-            return redirect("account-app:dashboard")
+            return redirect("dashboard")
         return render(request , "account/profile_manage.html" ,{"form": form}) 
 
-@login_required(login_url="account-app:user-login")
+@login_required(login_url="user-login")
 def delete_account(request):
     user = User.objects.get(id = request.user.id)
 

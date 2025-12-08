@@ -85,19 +85,19 @@
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="btn horror-btn" href="{% url "account-app:dashboard" %}">Dashboard</a>
+                        <a class="btn horror-btn" href="{% url "dashboard" %}">Dashboard</a>
                     </li>
         
                     <li class="nav-item">
-                        <a class="btn horror-btn" href="{% url "account-app:user-logout" %}">Logout</a>
+                        <a class="btn horror-btn" href="{% url "user-logout" %}">Logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="btn horror-btn" href="{% url "account-app:register" %}">Register</a>
+                        <a class="btn horror-btn" href="{% url "register" %}">Register</a>
                     </li>
         
                     <li class="nav-item">
-                        <a class="btn horror-btn" href="{% url "account-app:user-login" %}">Login</a>
+                        <a class="btn horror-btn" href="{% url "user-login" %}">Login</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">

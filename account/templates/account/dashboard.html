@@ -20,7 +20,7 @@
             <p class="card-text"><strong>Username:</strong> {{ request.user.username }}</p>
             <p class="card-text"><strong>Email:</strong> {{ request.user.email }}</p>
 
-            <a href="{% url 'account-app:profile-management' %}" class="dashboard-btn">
+            <a href="{% url 'profile-management' %}" class="dashboard-btn">
                 Update Information
             </a>
         </div>
@@ -30,7 +30,7 @@
             <h2 class="card-title">Danger Zone</h2>
             <p class="card-text">Once you descend, there is no return.</p>
 
-            <a href="{% url 'account-app:delete-user' %}" class="dashboard-btn danger-btn">
+            <a href="{% url 'delete-user' %}" class="dashboard-btn danger-btn">
                 Delete Account
             </a>
         </div>
