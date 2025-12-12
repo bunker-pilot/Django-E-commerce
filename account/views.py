@@ -13,6 +13,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from payment.forms import ShippingAddressForm
+from payment.models import ShippingAddress
 # Create your views here.
 
 class RegisterView(View):
@@ -127,4 +129,25 @@ def delete_account(request):
         return redirect("store-app:store")
     return render(request , "account/delete_account.html")
 
+# Shipping View
+@login_required(login_url="user-login")
+def manage_shipping(request):
+    try:
+        shipping = ShippingAddress.objects.get(user = request.user.id )
 
+    except ShippingAddress.DoesNotExist:
+        shipping = None
+    
+    form = ShippingAddressForm(instance=shipping)
+    if request.method == "POST":
+        form = ShippingAddressForm(request.POST, instance=shipping)
+
+        if form.is_valid():
+            meh = form.save(commit = False)
+
+            meh.user = request.user
+            meh.save()
+            return redirect("dashboard")
+
+    context = {"form" :form}
+    return render(request , "account/manage-shipping.html" , context)

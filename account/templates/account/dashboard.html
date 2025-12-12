@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block css_files %}
-    <link rel = "stylesheet" href= "{% static "account/dashboard.css" %}">
-
+<link rel="stylesheet" href="{% static 'account/dashboard.css' %}">
 {% endblock css_files %}
+
 {% block content %}
 
 <div class="dashboard-container">
@@ -14,7 +14,7 @@
 
     <div class="dashboard-grid">
 
-        <!-- USER INFO CARD -->
+        <!-- ACCOUNT INFO -->
         <div class="dashboard-card">
             <h2 class="card-title">Account Information</h2>
             <p class="card-text"><strong>Username:</strong> {{ request.user.username }}</p>
@@ -22,6 +22,16 @@
 
             <a href="{% url 'profile-management' %}" class="dashboard-btn">
                 Update Information
+            </a>
+        </div>
+
+        <!-- MANAGE SHIPPING ADDRESS -->
+        <div class="dashboard-card">
+            <h2 class="card-title">Shipping Address</h2>
+            <p class="card-text">Manage where your orders shall be delivered...</p>
+
+            <a href="{% url 'manage-shipping' %}" class="dashboard-btn">
+                Manage Shipping Address
             </a>
         </div>
 
@@ -35,10 +45,8 @@
             </a>
         </div>
 
-
     </div>
 
 </div>
-
 
 {% endblock %}

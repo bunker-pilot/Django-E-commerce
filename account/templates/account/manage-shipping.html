@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'account/manage-shipping.css' %}">
+
+{% endblock css_files %}
+
+{% block content %}
+
+<h1 class="shipping-title">Shipping Information</h1>
+
+<div class="register-container">
+    <form method="post" class="register-form">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="register-field {% if field.errors %}has-error{% endif %}">
+                <label>{{ field.label }}</label>
+                {{ field }}
+
+                {% if field.errors %}
+                <ul class="error-list">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="shipping-btn">Save Shipping Address</button>
+
+        {{ form.non_field_errors }}
+    </form>
+</div>
+
+{% endblock content %}
