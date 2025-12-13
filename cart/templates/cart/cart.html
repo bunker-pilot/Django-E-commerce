@@ -39,7 +39,7 @@
 
 <div class="cart-summary">
     <h2 id = "total_price">Total: ${{ cart.total_price }}</h2>
-    <a href="" class="checkout-btn">Proceed to Checkout</a>
+    <a href="{% url "payment_checkout" %}" class="checkout-btn">Proceed to Checkout</a>
 </div>
 
 {% else %}
