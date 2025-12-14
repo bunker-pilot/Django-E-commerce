@@ -53,7 +53,7 @@ class CheckoutView(LoginRequiredMixin,View):
                 full_name= shipment_info.full_name,
                 email = shipment_info.email,
                 user = request.user,
-                shipping_address=str(shipment_info.address1 + "\n" + shipment_info.address2 or "" +"\n"
+                shipping_address=str(shipment_info.address1 + "\n" + (shipment_info.address2 or "") +"\n"
                 +shipment_info.city + "\n" + shipment_info.zip_code),
                 amount_paid= cart.total_price()
             )
@@ -66,5 +66,5 @@ class CheckoutView(LoginRequiredMixin,View):
                     total_price= item["total_price"]
                 )
 
-        request.sesssion["order_submission"] =True        
+        request.session["order_submission"] =True        
         return redirect("payment_success")
