@@ -10,8 +10,8 @@
 
 <h1 class="shipping-title">Shipping Information</h1>
 
-<div class="register-container">
-    <form method="post" class="register-form">
+<div class="shipping-container">
+    <form method="post" class="shipping-form">
         {% csrf_token %}
 
         {% for field in form %}
@@ -29,10 +29,19 @@
             </div>
         {% endfor %}
 
-        <button type="submit" class="shipping-btn">Procced</button>
+        <button type="submit" class="shipping-btn">Proceed</button>
 
         {{ form.non_field_errors }}
     </form>
 </div>
+
+
+<script>
+    document.querySelector("form").addEventListener("submit", function () {
+        const btn = document.getElementById("shipping-btn");
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+    });
+</script>
 
 {% endblock content %}

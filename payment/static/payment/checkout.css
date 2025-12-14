@@ -1,0 +1,99 @@
+body {
+    background: #0a0a0a;
+    background-image: radial-gradient(circle at top, #22000055, #000000 70%);
+    color: #e6e6e6;
+    font-family: Arial, sans-serif;
+}
+/* PAGE TITLE */
+.shipping-title {
+    text-align: center;
+    font-family: "Creepster", cursive;
+    font-size: 2.5rem;
+    color: #ff3b3b;
+    text-shadow: 0 0 15px red;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* FORM CONTAINER TWEAKS */
+.shipping-container {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 2rem;
+    padding: 2.5rem 2rem;
+    background: rgba(15, 15, 15, 0.85);
+    border: 2px solid #2b0000;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.18);
+}
+
+/* INPUT FIELDS */
+.register-field label {
+    color: #e3e3e3;
+    font-size: 1rem;
+    margin-left: 0.2rem;
+    margin-bottom: 0.6rem;
+    display: block;
+    font-weight: 500;
+}
+.register-field {
+    margin-bottom: 1.3rem;
+}
+.register-field input,
+.register-field textarea,
+.register-field select {
+    width: 100%;
+    padding: 10px 14px;
+    background: #1a1a1a;
+    border: 1px solid #3a0000;
+    color: #eee;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.register-field input:focus,
+.register-field textarea:focus,
+.register-field select:focus {
+    border-color: #ff3b3b;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+/* ERROR HIGHLIGHT */
+.has-error input,
+.has-error textarea {
+    border-color: #ff3333;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.25);
+}
+
+.has-error label {
+    color: #ff4d4d;
+}
+
+/* HORROR BUTTON */
+.shipping-btn {
+    width: 100%;
+    padding: 12px;
+    background: #7a0000;
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.25s;
+    margin-top: 1.2rem;
+    text-shadow: 0 0 8px black;
+}
+
+.shipping-btn:hover {
+    background: #b30000;
+    box-shadow: 0 0 12px rgba(255,0,0,0.4);
+}
+
+.error-list {
+    margin-top: 10px;
+    color: #ff4d4d;
+    list-style: none;
+    font-size: 0.95rem;
+    padding-left: 0;
+    text-align: left;
+}

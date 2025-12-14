@@ -11,13 +11,15 @@ from cart.cart import Cart
 
 
 def success(request):
+    if not request.session.get("order_submission"):
+        return redirect("store-app:store")
+    request.session.pop("order_submission" , None)
+    cart = Cart(request)
+    cart.clear()
     return render(request , "payment/payment-success.html")
 
 def failed(request):
     return render(request , "payment/payment-failed.html")
-
-def checkout(request):
-    return render(request , "payment/checkout.html")
 
 class CheckoutView(LoginRequiredMixin,View):
     login_url = "account-app:user-login"
