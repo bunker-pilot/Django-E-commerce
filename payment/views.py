@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View
 from .forms import ShippingAddressForm
-from .models import ShippingAddress
+from .models import ShippingAddress, Order, OrderItem
+from store.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
+from cart.cart import Cart
 # Create your views here.
 
 
@@ -31,12 +34,35 @@ class CheckoutView(LoginRequiredMixin,View):
         return render(request, "payment/checkout.html" , {"form" : form})
 
     def post(self , request):
+        if request.session.get("order_submission"):
+            return redirect("payment_success")
         shipping = self.get_shipping(request.user)
         form = ShippingAddressForm(request.POST,instance=shipping)
-        if form.is_valid():
-            wait = form.save(commit= False)
+        if not form.is_valid():
+            return render(request , "payment/checkout.html")
+        cart = Cart(request)
+        if len(cart) == 0:
+            return redirect("store-app:store")
+        with transaction.atomic():
+            shipment_info = form.save(commit= False)
+            shipment_info.user = request.user
+            shipment_info.save()
+            order =Order.objects.create(
+                full_name= shipment_info.full_name,
+                email = shipment_info.email,
+                user = request.user,
+                shipping_address=str(shipment_info.address1 + "\n" + shipment_info.address2 or "" +"\n"
+                +shipment_info.city + "\n" + shipment_info.zip_code),
+                amount_paid= cart.total_price()
+            )
+            
+            for item in cart:
+                order_item =OrderItem.objects.create(
+                    order=order , product=item["product"],
+                    product_name= item["product"].title ,quantity=item["qty"],
+                    price=item["price"],
+                    total_price= item["total_price"]
+                )
 
-            wait.user = request.user
-            wait.save()
-            return redirect()
-        return render(request , "payment/checkout.html")
+        request.sesssion["order_submission"] =True        
+        return redirect("payment_success")

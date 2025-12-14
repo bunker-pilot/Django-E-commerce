@@ -35,14 +35,13 @@ class Order(models.Model):
         return f"Order-#{self.id}"
 
 class OrderItem(models.Model):
-
     order = models.ForeignKey(Order , on_delete=models.CASCADE , null=True)
     product = models.ForeignKey(Product ,on_delete=models.SET_NULL , null=True)
     product_name = models.CharField(max_length=300)
     quantity = models.PositiveIntegerField(default =1)
 
     price = models.DecimalField(decimal_places=2 , max_digits=8 , validators=[MinValueValidator(0)])
-
+    total_price  = models.DecimalField(decimal_places=2 , max_digits=12 , validators=[MinValueValidator(0)] , null=True)
 
     def __str__(self):
         return f"Order Item-{self.product}-#{self.id}"
