@@ -7,8 +7,13 @@ from store.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from cart.cart import Cart
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+import stripe
+from django.conf import settings
 # Create your views here.
 
+stripe.api_key = settings.STRIPE_PRIVATE_KEY
 
 def success(request):
     if not request.session.get("order_submission"):
@@ -21,7 +26,7 @@ def success(request):
 def failed(request):
     return render(request , "payment/payment-failed.html")
 
-class CheckoutView(LoginRequiredMixin,View):
+class CustomerInfo(LoginRequiredMixin,View):
     login_url = "account-app:user-login"
     def get_shipping(self, user):
         try: 
@@ -33,7 +38,7 @@ class CheckoutView(LoginRequiredMixin,View):
     def get(self , request):
         shipping = self.get_shipping(request.user)
         form = ShippingAddressForm(instance=shipping)
-        return render(request, "payment/checkout.html" , {"form" : form})
+        return render(request, "payment/customer_info.html" , {"form" : form})
 
     def post(self , request):
         if request.session.get("order_submission"):
@@ -41,7 +46,7 @@ class CheckoutView(LoginRequiredMixin,View):
         shipping = self.get_shipping(request.user)
         form = ShippingAddressForm(request.POST,instance=shipping)
         if not form.is_valid():
-            return render(request , "payment/checkout.html")
+            return render(request , "payment/customer_info.html")
         cart = Cart(request)
         if len(cart) == 0:
             return redirect("store-app:store")
@@ -68,3 +73,34 @@ class CheckoutView(LoginRequiredMixin,View):
 
         request.session["order_submission"] =True        
         return redirect("payment_success")
+
+    
+class CheckoutView(LoginRequiredMixin,View):
+    login_url = "account-app:user-login"
+    def get(request):
+        return render(request , "payment/checkout.html")
+    def post(request):
+        order = Order.objects.filter(user = request.user).first()
+        amount = order.amount_paid * 100
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+                    mode="payment",
+                    line_items=[{
+                        "price_data": {
+                            "currency": "usd",
+                            "product_data": {
+                                "name": "Purchase",
+                            },
+                            "unit_amount": amount,
+                        },
+                        "quantity": 1,
+                    }],
+            success_url=request.build_absolute_uri( reverse_lazy("payment_success")) + "?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url = request.build_absolute_uri(reverse_lazy("payment_fail"))
+            )
+        return redirect(session.url)
+
+@csrf_exempt
+def stripe_wbhook(request):
+    pass
+

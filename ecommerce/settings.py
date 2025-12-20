@@ -141,3 +141,7 @@ EMAIL_PORT = os.environ["EMAIL_PORT"]
 EMAIL_USE_TLS = os.environ["EMAIL_USE_TLS"] == "True"
 EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
 EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+
+#Stripe keys
+STRIPE_PRIVATE_KEY = os.environ["STRIPE_PRIVATE_KEY"]
+STRIPE_PUBLIC_KEY = os.environ["STRIPE_PUBIC_KEY"]

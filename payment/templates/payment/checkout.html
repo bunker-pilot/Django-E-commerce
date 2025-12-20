@@ -1,47 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
-
-{% block css_files %}
-<link rel="stylesheet" href="{% static 'payment/checkout.css' %}">
-
-{% endblock css_files %}
 
 {% block content %}
-
-<h1 class="shipping-title">Shipping Information</h1>
-
-<div class="shipping-container">
-    <form method="post" class="shipping-form">
-        {% csrf_token %}
-
-        {% for field in form %}
-            <div class="register-field {% if field.errors %}has-error{% endif %}">
-                <label>{{ field.label }}</label>
-                {{ field }}
-
-                {% if field.errors %}
-                <ul class="error-list">
-                    {% for error in field.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </div>
-        {% endfor %}
-
-        <button type="submit" class="shipping-btn">Proceed</button>
-
-        {{ form.non_field_errors }}
-    </form>
-</div>
-
-
-<script>
-    document.querySelector("form").addEventListener("submit", function () {
-        const btn = document.getElementById("shipping-btn");
-        btn.disabled = true;
-        btn.innerText = "Processing...";
-    });
-</script>
-
+    <button type = "submit">pay with stripe</button>
 {% endblock content %}
