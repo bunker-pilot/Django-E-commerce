@@ -9,6 +9,7 @@ from django.db import transaction
 from cart.cart import Cart
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 import stripe
 from django.conf import settings
 # Create your views here.
@@ -16,9 +17,19 @@ from django.conf import settings
 stripe.api_key = settings.STRIPE_PRIVATE_KEY
 
 def success(request):
-    if not request.session.get("order_submission"):
+    session_id = request.GET.get("session_id")
+    if not session_id:
         return redirect("store-app:store")
-    request.session.pop("order_submission" , None)
+
+    try : 
+        session = stripe.checkout.Session.retrieve(session_id)
+        order = Order.object.get(pk = session.metadata.get("order_id"))
+    except Exception:
+        return redirect("store-app:store")
+
+    if not order.confirm:
+        return render(request , "payment/payment-processing.html")
+
     cart = Cart(request)
     cart.clear()
     return render(request , "payment/payment-success.html")
@@ -41,8 +52,6 @@ class CustomerInfo(LoginRequiredMixin,View):
         return render(request, "payment/customer_info.html" , {"form" : form})
 
     def post(self , request):
-        if request.session.get("order_submission"):
-            return redirect("payment_success")
         shipping = self.get_shipping(request.user)
         form = ShippingAddressForm(request.POST,instance=shipping)
         if not form.is_valid():
@@ -70,17 +79,18 @@ class CustomerInfo(LoginRequiredMixin,View):
                     price=item["price"],
                     total_price= item["total_price"]
                 )
-
-        request.session["order_submission"] =True        
-        return redirect("payment_success")
+            request.session["order_id"] = order.id
+            reqeust.session.modified = True
+              
+        return redirect("payment_checkout")
 
     
 class CheckoutView(LoginRequiredMixin,View):
     login_url = "account-app:user-login"
-    def get(request):
+    def get(self ,request):
         return render(request , "payment/checkout.html")
-    def post(request):
-        order = Order.objects.filter(user = request.user).first()
+    def post(self, request):
+        order = Order.objects.get(user = request.user, pk = request.session.get("order_id"))
         amount = order.amount_paid * 100
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
@@ -89,18 +99,44 @@ class CheckoutView(LoginRequiredMixin,View):
                         "price_data": {
                             "currency": "usd",
                             "product_data": {
-                                "name": "Purchase",
+                                "name": "Order",
                             },
                             "unit_amount": amount,
                         },
                         "quantity": 1,
                     }],
-            success_url=request.build_absolute_uri( reverse_lazy("payment_success")) + "?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url = request.build_absolute_uri(reverse_lazy("payment_fail"))
+                metadata = {
+                    "order_id" : order.id,
+                    "user_id" : request.user.id
+                },
+                success_url=request.build_absolute_uri( reverse_lazy("payment_success")) + "?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url = request.build_absolute_uri(reverse_lazy("payment_fail"))
             )
         return redirect(session.url)
 
 @csrf_exempt
-def stripe_wbhook(request):
-    pass
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
+
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+    try:
+        event = stripe.Webhook.construct_event(
+            payload = payload, sig_header=sig_header,secret=endpoint_secret
+        )
+    except ValueError:
+        return HttpResponse(status = 400)
+    except stripe.error.SignatureVerificationError:
+        return HttpResponse(status = 400)
+
+    if event["type"] =="checkout.session.completed":
+        session = event["data"]["object"]
+        order_id = session["metadata"]["order_id"]
+        order = Order.objects.get(id = order_id)
+        order.confirmed = True
+        order.save()
+
+    return HttpResponse(status =200)
+
+
 
