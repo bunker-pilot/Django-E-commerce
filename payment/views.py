@@ -23,7 +23,7 @@ def success(request):
 
     try : 
         session = stripe.checkout.Session.retrieve(session_id)
-        order = Order.object.get(pk = session.metadata.get("order_id"))
+        order = Order.objects.get(pk = session.metadata.get("order_id"))
     except Exception:
         return redirect("store-app:store")
 
@@ -36,22 +36,8 @@ def success(request):
     return render(request , "payment/payment-success.html", {"order":order})
 
 def failed(request):
-    session_id = request.GET.get("session_id")
-    if not session_id:
-        return redirect("store-app:store")
-    try :
-        sesssion = stripe.checkout.Session.retrieve(session_id)
-        order = Order.objects.get(pk = sesssion.metadata.get("order_id"))
-    except Exception:
-        return redirect("store-app:store")
-    
-    if (order.status).casefold() == "paid":
-        return render(request , "payment/payment-success.html", {"order":order})
-    
-    elif (order.status).casefold() == "pending":
-        return render(request , "payment/payment_processing.html", {"order":order})
-    
-    return render(request , "payment/payment-failed.html", {"order":order})
+   
+    return render(request , "payment/payment-failed.html")
 
 class CustomerInfo(LoginRequiredMixin,View):
     login_url = "account-app:user-login"
@@ -96,7 +82,7 @@ class CustomerInfo(LoginRequiredMixin,View):
                     total_price= item["total_price"]
                 )
             request.session["order_id"] = order.id
-            reqeust.session.modified = True
+            request.session.modified = True
               
         return redirect("payment_checkout")
 
@@ -104,10 +90,15 @@ class CustomerInfo(LoginRequiredMixin,View):
 class CheckoutView(LoginRequiredMixin,View):
     login_url = "account-app:user-login"
     def get(self ,request):
+        order_id = request.session.get("order_id")
+        try:
+            order = Order.objects.get(user=request.user, pk=order_id)
+        except Order.DoesNotExist:
+            return redirect("store-app:store")
         return render(request , "payment/checkout.html")
     def post(self, request):
         order = Order.objects.get(user = request.user, pk = request.session.get("order_id"))
-        amount = order.amount_paid * 100
+        amount = int(order.amount_paid * 100)
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
                     mode="payment",
@@ -126,7 +117,7 @@ class CheckoutView(LoginRequiredMixin,View):
                     "user_id" : request.user.id
                 },
                 success_url=request.build_absolute_uri( reverse_lazy("payment_success")) + "?session_id={CHECKOUT_SESSION_ID}",
-                cancel_url = request.build_absolute_uri(reverse_lazy("payment_fail"))
+                cancel_url = request.build_absolute_uri(reverse_lazy("payment_failed"))
             )
         return redirect(session.url)
 
