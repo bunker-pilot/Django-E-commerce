@@ -1,1 +1,39 @@
-failed
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Payment Failed{% endblock %}
+{% block css_files %}
+    <link rel = "stylesheet" , href = "{% static "payment/payment_status.css" %}" >
+{% endblock css_files %}
+{% block content %}
+<section class="payment-status failed">
+    <div class="status-card">
+        <div class="status-icon failed-icon">✕</div>
+
+        <h1>Payment Failed</h1>
+        <p class="status-message">
+            The payment could not be completed.  
+            No charges were made to your account.
+        </p>
+
+        {% if order %}
+            <p class="order-ref">
+                Order reference: <strong>#{{ order.id }}</strong>
+            </p>
+        {% endif %}
+
+        <p class="status-subtle">
+            You may retry the payment or update your billing details.
+        </p>
+
+        <div class="status-actions">
+            <a href="{% url 'payment_checkout' %}" class="btn primary danger">
+                Try Again
+            </a>
+            <a href="{% url 'account-app:dashboard' %}" class="btn secondary">
+                Go to Dashboard
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

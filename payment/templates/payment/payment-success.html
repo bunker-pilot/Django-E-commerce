@@ -1,1 +1,35 @@
-success
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Payment Successful{% endblock %}
+{% block css_files %}
+    <link rel = "stylesheet" , href = "{% static "payment/payment_status.css" %}" >
+{% endblock css_files %}
+{% block content %}
+<section class="payment-status success">
+    <div class="status-card">
+        <div class="status-icon success-icon">✓</div>
+
+        <h1>Payment Successful</h1>
+        <p class="status-message">
+            Your payment has been confirmed.  
+            The order has been sealed and will be processed shortly.
+        </p>
+
+        {% if order %}
+            <p class="order-ref">
+                Order reference: <strong>#{{ order.id }}</strong>
+            </p>
+        {% endif %}
+
+        <div class="status-actions">
+            <a href="{% url 'account-app:dashboard' %}" class="btn primary">
+                Go to Dashboard
+            </a>
+            <a href="{% url 'store-app:home' %}" class="btn secondary">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

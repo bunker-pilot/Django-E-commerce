@@ -22,12 +22,17 @@ class ShippingAddress(models.Model):
     
 
 class Order(models.Model):
+    STATUS_CHOICES = (
+        ("failed" , "Failed"),
+        ("paid" , "Paid"),
+        ("pending" , "Pending"),
+    )
     full_name = models.CharField(max_length=300)
 
     email = models.EmailField(max_length=255)
     shipping_address = models.TextField(max_length=10000)
     amount_paid = models.DecimalField(max_digits=8 , decimal_places=2 , validators=[MinValueValidator(0)])
-    confirmed = models.BooleanField(default=False )
+    status = models.CharField(default="pending" , choices=STATUS_CHOICES )
     date_ordered = models.DateTimeField(auto_now_add= True)
     user = models.ForeignKey(User,  on_delete=models.SET_NULL , related_name="orders",blank=True,null=True)
     

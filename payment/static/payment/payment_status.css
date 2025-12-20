@@ -1,0 +1,70 @@
+.payment-status {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-card {
+    background: rgba(10, 10, 10, 0.9);
+    border-radius: 14px;
+    padding: 3rem;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+}
+
+.status-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.success-icon {
+    color: #4caf50;
+}
+
+.failed-icon {
+    color: #e53935;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #333;
+    border-top: 4px solid #999;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.status-message {
+    font-size: 1.1rem;
+    margin: 1rem 0;
+}
+
+.status-subtle {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.order-ref {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+.status-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn.danger {
+    background: #b71c1c;
+}

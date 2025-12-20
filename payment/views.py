@@ -27,15 +27,31 @@ def success(request):
     except Exception:
         return redirect("store-app:store")
 
-    if not order.confirm:
-        return render(request , "payment/payment-processing.html")
-
+    if (order.status).casefold() !="paid":
+        return render(request , "payment/payment-processing.html" , {"order":order})
+    elif (order.status).casefold() == "failed":
+        return render(request , "payment/payment-failed.html", {"order":order})
     cart = Cart(request)
     cart.clear()
-    return render(request , "payment/payment-success.html")
+    return render(request , "payment/payment-success.html", {"order":order})
 
 def failed(request):
-    return render(request , "payment/payment-failed.html")
+    session_id = request.GET.get("session_id")
+    if not session_id:
+        return redirect("store-app:store")
+    try :
+        sesssion = stripe.checkout.Session.retrieve(session_id)
+        order = Order.objects.get(pk = sesssion.metadata.get("order_id"))
+    except Exception:
+        return redirect("store-app:store")
+    
+    if (order.status).casefold() == "paid":
+        return render(request , "payment/payment-success.html", {"order":order})
+    
+    elif (order.status).casefold() == "pending":
+        return render(request , "payment/payment_processing.html", {"order":order})
+    
+    return render(request , "payment/payment-failed.html", {"order":order})
 
 class CustomerInfo(LoginRequiredMixin,View):
     login_url = "account-app:user-login"
@@ -133,7 +149,13 @@ def stripe_webhook(request):
         session = event["data"]["object"]
         order_id = session["metadata"]["order_id"]
         order = Order.objects.get(id = order_id)
-        order.confirmed = True
+        order.status = "paid"
+        order.save()
+    elif event["type"] == "payment_intent.payment_failed":
+        session = event["data"]["object"]
+        order_id = session["metadata"]["order_id"]
+        order = Order.objects.get(id = order_id)
+        order.status = "failed"
         order.save()
 
     return HttpResponse(status =200)
