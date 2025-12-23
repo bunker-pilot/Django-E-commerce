@@ -1,8 +1,53 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Finalize Ritual{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'payment/payment_status.css' %}">
+{% endblock css_files %}
 
 {% block content %}
-<form method= "post">
-    {% csrf_token %}
-    <button type = "submit">pay with stripe</button>
-</form>
+<section class="payment-status checkout-page">
+    <div class="status-card checkout-card">
+        
+        <h1 class="checkout-title">Select Your Offering</h1>
+        
+        <p class="status-subtle">
+            The shipment details have been inscribed.<br>
+            Choose how you wish to complete the transaction.
+        </p>
+
+        <div class="checkout-summary">
+            <span class="summary-label">Final Toll:</span>
+            <span class="summary-price">${{ cart.total_price|default:"0.00" }}</span>
+        </div>
+
+        <div class="payment-options">
+            
+            <form method="post" class="payment-form">
+                {% csrf_token %}
+                <button type="submit" class="payment-btn stripe-btn">
+                    <div class="btn-content">
+                        <i class="fa fa-cc-stripe" aria-hidden="true"></i>
+                        <span>Pay with Stripe</span>
+                    </div>
+                </button>
+            </form>
+
+            <button class="payment-btn paypal-btn disabled" disabled>
+                <div class="btn-content">
+                    <i class="fa fa-paypal" aria-hidden="true"></i>
+                    <span>PayPal (Dead)</span>
+                </div>
+            </button>
+
+        </div>
+
+        <p class="secure-notice">
+            <i class="fa fa-lock"></i> Encrypted by dark magic (SSL Secured)
+        </p>
+
+    </div>
+</section>
 {% endblock content %}
