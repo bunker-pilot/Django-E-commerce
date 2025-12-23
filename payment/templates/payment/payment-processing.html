@@ -2,35 +2,37 @@
 {% load static %}
 
 {% block title %}Processing Payment{% endblock %}
+
 {% block css_files %}
-    <link rel = "stylesheet" , href = "{% static "payment/payment_status.css" %}" >
+    <link rel="stylesheet" href="{% static 'payment/payment_status.css' %}">
 {% endblock css_files %}
+
 {% block content %}
 <section class="payment-status processing">
     <div class="status-card">
-        <div class="status-icon spinner"></div>
+        <div class="spinner"></div>
 
-        <h1>Processing Payment</h1>
+        <h1>Processing...</h1>
+        
         <p class="status-message">
-            Your payment is currently being processed.  
-            Please do not refresh or close this page.
+            Your payment is currently in the void.<br>
+            Do not refresh, or you may break the ritual.
         </p>
 
         <p class="status-subtle">
-            Some payment methods take a few moments to confirm.  
-            This page will update automatically.
+            This page will update automatically once the spirits decide.
         </p>
 
         <div class="status-actions">
-            <a href="{% url 'dashboard' %}" class="btn secondary">
-                Go to Dashboard
+            <a href="{% url 'dashboard' %}" class="horror-btn-secondary">
+                Return to Safety
             </a>
         </div>
     </div>
 </section>
 
 <script>
-    // Optional auto-refresh every 5 seconds
+    // Auto-refresh every 5 seconds
     setTimeout(() => {
         window.location.reload();
     }, 5000);
